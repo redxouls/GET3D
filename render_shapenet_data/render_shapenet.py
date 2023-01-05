@@ -91,6 +91,7 @@ def enable_cuda_devices():
 
 
 enable_cuda_devices()
+print("Flag")
 context.active_object.select_set(True)
 bpy.ops.object.delete()
 

@@ -8,6 +8,8 @@
 
 import os
 import argparse
+import subprocess
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser(description='Renders given obj file by rotation a camera around it.')
 parser.add_argument(
@@ -37,8 +39,9 @@ scale_list = [
 ]
 for synset, obj_scale in zip(synset_list, scale_list):
     file_list = sorted(os.listdir(os.path.join(dataset_folder, synset)))
-    for idx, file in enumerate(file_list):
+    for idx, file in tqdm(enumerate(file_list), total=len(file_list)):
         render_cmd = '%s -b -P render_shapenet.py -- --output %s %s  --scale %f --views 24 --resolution 1024 >> tmp.out' % (
             blender_root, save_folder, os.path.join(dataset_folder, synset, file, 'model.obj'), obj_scale
         )
-        os.system(render_cmd)
+        # os.system(render_cmd)
+        subprocess.Popen(render_cmd, shell=True).wait()
